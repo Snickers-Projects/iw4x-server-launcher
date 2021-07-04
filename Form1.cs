@@ -25,19 +25,33 @@ namespace IW4x_Server_Launcher
 
         private string argument_string_party = "";
         private string argument_string_dedicated = "";
+        private string arg_server_ip         = "";
 
         public Form1()
         {
             InitializeComponent();
 
+            if(!File.Exists("iw4x.exe"))
+            {
+                MessageBox.Show("Please make sure you place this launcher in the same folder as iw4x.exe");
+                Environment.Exit(0);
+            }
+
+            if(!File.Exists("iw4sp.exe"))
+            {
+                buttonSingleplayer.Visible = false;
+            }
+
             get_mods();
             get_gamemodes();
-            
             get_saved_details();
 
             comboBoxLAN.DropDownStyle      = ComboBoxStyle.DropDownList;
             comboBoxMod.DropDownStyle      = ComboBoxStyle.DropDownList;
             comboBoxPlaylist.DropDownStyle = ComboBoxStyle.DropDownList;
+
+            textboxServerIP.ValidatingType = typeof(System.Net.IPAddress);
+            textboxServerIP.Text = arg_server_ip;
 
         }
 
@@ -124,27 +138,13 @@ namespace IW4x_Server_Launcher
         public void update_arguments()
         {
             arg_net_port = textBoxNetport.Text;
+            arg_server_ip = textboxServerIP.Text;
+
             string playlist_id = "1";
-
-            foreach (Match id in Regex.Matches(comboBoxPlaylist.SelectedItem.ToString(), @"\[(.*?)\]"))
-            {
-                playlist_id = id.Groups[1].ToString();
-
-            }
-
-            // Playlists are always -1 of the selected value for some reason..
-            if(int.Parse(playlist_id) > 0)
-            {
-                int int_playlist_id = int.Parse(playlist_id);
-                int_playlist_id = int_playlist_id - 1;
-                playlist_id = int_playlist_id.ToString();
-            }
-
-            arg_playlist = playlist_id;
 
             if (comboBoxMod.SelectedItem.ToString() != "none")
             {
-                arg_fs_game = "mods/"+ comboBoxMod.SelectedItem.ToString();
+                arg_fs_game = "mods/" + comboBoxMod.SelectedItem.ToString();
             }
             else
             {
@@ -152,23 +152,43 @@ namespace IW4x_Server_Launcher
             }
 
             if (comboBoxLAN.SelectedItem.ToString().ToUpper() == "LAN") arg_sv_lanonly = "1";
-            if (comboBoxLAN.SelectedItem.ToString().ToUpper() == "ONLINE")  arg_sv_lanonly = "0";
+            if (comboBoxLAN.SelectedItem.ToString().ToUpper() == "ONLINE") arg_sv_lanonly = "0";
 
+            if (File.Exists(@"userraw\partyserver.cfg"))
+            {
+                foreach (Match id in Regex.Matches(comboBoxPlaylist.SelectedItem.ToString(), @"\[(.*?)\]"))
+                {
+                    playlist_id = id.Groups[1].ToString();
+                }
 
-            argument_string_dedicated = "-dedicated +set fs_game \""+ arg_fs_game +
-                                   "\" +set sv_lanonly \""+ arg_sv_lanonly +
-                                   "\" +set net_port \"" + arg_net_port +
-                                   "\" +exec \"" + arg_serverFilename +
-                                   "\" +set party_enable \"" + arg_party_enable +
-            "\"";
+                // Playlists are always -1 of the selected value for some reason..
+                if (int.Parse(playlist_id) > 0)
+                {
+                    int int_playlist_id = int.Parse(playlist_id);
+                    int_playlist_id = int_playlist_id - 1;
+                    playlist_id = int_playlist_id.ToString();
+                }
 
-            argument_string_party = "-dedicated +set fs_game \"" + arg_fs_game +
+                arg_playlist = playlist_id;
+
+                argument_string_party = "-dedicated +set fs_game \"" + arg_fs_game +
                        "\" +set sv_lanonly \"" + arg_sv_lanonly +
                        "\" +set net_port \"" + arg_net_port +
                        "\" +exec \"" + arg_serverFilename +
                        "\" +set party_enable \"" + arg_party_enable +
                        "\" +playlist \"" + arg_playlist +
                        "\" +set playlistFilename \"" + arg_playlistFilename + "\"";
+            }
+
+            if (File.Exists(@"userraw\server.cfg"))
+            {
+                argument_string_dedicated = "-dedicated +set fs_game \"" + arg_fs_game +
+                       "\" +set sv_lanonly \"" + arg_sv_lanonly +
+                       "\" +set net_port \"" + arg_net_port +
+                       "\" +exec \"" + arg_serverFilename +
+                       "\" +set party_enable \"" + arg_party_enable +
+                       "\"";
+            }
 
         }
 
@@ -216,8 +236,19 @@ namespace IW4x_Server_Launcher
 
         private void get_gamemodes()
         {
+            if (!File.Exists("launcher.ini"))
+            {
+                using (StreamWriter w = File.AppendText("launcher.ini")) ;
+            }
+
             var ConfigFile = Path.GetFullPath("launcher.ini");
             arg_playlist = IniFile.ReadValue(ConfigFile, "launcher", "playlist");
+
+            if (!File.Exists("userraw\\server.cfg"))
+            {
+                buttonDedicatedServer.Visible = false;
+                buttonOpenServerConfig.Visible = false;
+            }
 
             if (!File.Exists("userraw\\playlists_launcher.info"))
             {
@@ -228,7 +259,6 @@ namespace IW4x_Server_Launcher
                 return;
             }
 
-
             string[] playlist_lines = File.ReadAllLines("userraw\\playlists_launcher.info");
             comboBoxPlaylist.Items.Clear();
             int i = 1;
@@ -237,10 +267,11 @@ namespace IW4x_Server_Launcher
             {
                 if (last_line.Length > 9 && last_line.Substring(0, 9) == "playlist ")
                 {
+
                     var playlist_value = last_line.Split(' ', '	').Skip(1).FirstOrDefault();
                     var playlist_string = "[" + playlist_value + "] " + line.Remove(0, 13).Replace("\"", "").ToUpper();
-
                     comboBoxPlaylist.Items.Add(playlist_string);
+                    
                     if (playlist_value == arg_playlist)
                     {
                         comboBoxPlaylist.SelectedItem = playlist_string;
@@ -251,12 +282,19 @@ namespace IW4x_Server_Launcher
                 i++;
                 last_line = line;
             }
-
-
+            if (comboBoxPlaylist.Items.Count > 0 && comboBoxPlaylist.SelectedItem == null)
+            {
+                comboBoxPlaylist.SelectedIndex = 0;
+            }
         }
 
         public void get_saved_details()
         {
+            if (!File.Exists("launcher.ini"))
+            {
+                using (StreamWriter w = File.AppendText("launcher.ini")) ;
+            }
+                
             var ConfigFile = Path.GetFullPath("launcher.ini");
 
             arg_fs_game = IniFile.ReadValue(ConfigFile, "launcher", "mod");
@@ -273,7 +311,9 @@ namespace IW4x_Server_Launcher
             if (arg_net_port.Length == 0)
                 arg_net_port = "28960";
 
-            textBoxNetport.Text = arg_net_port;
+            arg_server_ip = IniFile.ReadValue(ConfigFile, "launcher", "server_ip");
+            if (arg_net_port.Length == 0)
+                arg_server_ip = "127.0.0.1";
 
         }
 
@@ -281,24 +321,58 @@ namespace IW4x_Server_Launcher
         {
             var ConfigFile = Path.GetFullPath("launcher.ini");
 
-            foreach (Match id in Regex.Matches(comboBoxPlaylist.SelectedItem.ToString(), @"\[(.*?)\]"))
+            if (File.Exists("userraw\\playlists_launcher.info"))
             {
-                var playlist_id = id.Groups[1].ToString();
-                IniFile.WriteValue(ConfigFile, "launcher", "playlist", playlist_id);
+                foreach (Match id in Regex.Matches(comboBoxPlaylist.SelectedItem.ToString(), @"\[(.*?)\]"))
+                {
+                    var playlist_id = id.Groups[1].ToString();
+                    IniFile.WriteValue(ConfigFile, "launcher", "playlist", playlist_id);
+                }
             }
+
 
             string mod = comboBoxMod.SelectedItem.ToString();
             if (arg_fs_game.Contains("mods/")) mod = arg_fs_game.Substring(5);
 
             IniFile.WriteValue(ConfigFile, "launcher", "mod", mod);
-            IniFile.WriteValue(ConfigFile, "launcher", "lanmode", arg_sv_lanonly);
-            IniFile.WriteValue(ConfigFile, "launcher", "netport", arg_net_port);
-            
+            if (File.Exists("userraw\\playlists_launcher.info") || File.Exists("userraw\\server.cfg"))
+            {
+                IniFile.WriteValue(ConfigFile, "launcher", "lanmode", arg_sv_lanonly);
+                IniFile.WriteValue(ConfigFile, "launcher", "netport", arg_net_port);
+            }
+
+            IniFile.WriteValue(ConfigFile, "launcher", "server_ip", arg_server_ip);
         }
 
         private void panel1_Paint(object sender, PaintEventArgs e)
         {
 
+        }
+
+        private void buttonDirectConnect_Click(object sender, EventArgs e)
+        {
+            if (!File.Exists("iw4x.exe")) return;
+
+            update_arguments();
+            save_details();
+
+
+            if (comboBoxMod.SelectedItem.ToString() != "none")
+            {
+                arg_fs_game = "mods/" + comboBoxMod.SelectedItem.ToString();
+            }
+            else
+            {
+                arg_fs_game = "";
+            }
+
+            var p = new Process();
+            p.StartInfo.FileName = Path.GetFullPath("iw4x.exe");
+            p.StartInfo.Arguments = "+set fs_game \"" + arg_fs_game + "\"";
+            p.StartInfo.Arguments = "+set net_port \""+ arg_net_port+"\"";
+            p.StartInfo.Arguments = "+connect \"" + arg_server_ip + "\"";
+            p.Start();
+            Environment.Exit(0);
         }
     }
 }

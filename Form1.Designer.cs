@@ -30,6 +30,9 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             this.panel1 = new System.Windows.Forms.Panel();
+            this.textboxServerIP = new System.Windows.Forms.MaskedTextBox();
+            this.label2 = new System.Windows.Forms.Label();
+            this.buttonDirectConnect = new System.Windows.Forms.Button();
             this.buttonOpenServerConfig = new System.Windows.Forms.Button();
             this.buttonOpenLobbyConfig = new System.Windows.Forms.Button();
             this.textBoxNetport = new System.Windows.Forms.TextBox();
@@ -53,6 +56,9 @@
             this.panel1.BackColor = System.Drawing.Color.Black;
             this.panel1.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("panel1.BackgroundImage")));
             this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panel1.Controls.Add(this.textboxServerIP);
+            this.panel1.Controls.Add(this.label2);
+            this.panel1.Controls.Add(this.buttonDirectConnect);
             this.panel1.Controls.Add(this.buttonOpenServerConfig);
             this.panel1.Controls.Add(this.buttonOpenLobbyConfig);
             this.panel1.Controls.Add(this.textBoxNetport);
@@ -72,10 +78,40 @@
             this.panel1.Font = new System.Drawing.Font("BankGothic Md BT", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.panel1.Location = new System.Drawing.Point(0, 0);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(567, 327);
+            this.panel1.Size = new System.Drawing.Size(567, 365);
             this.panel1.TabIndex = 0;
             this.panel1.Paint += new System.Windows.Forms.PaintEventHandler(this.panel1_Paint);
             this.panel1.MouseDown += new System.Windows.Forms.MouseEventHandler(this.panel1_MouseDown);
+            // 
+            // textboxServerIP
+            // 
+            this.textboxServerIP.Location = new System.Drawing.Point(116, 223);
+            this.textboxServerIP.Name = "textboxServerIP";
+            this.textboxServerIP.Size = new System.Drawing.Size(233, 21);
+            this.textboxServerIP.TabIndex = 25;
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(23, 226);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(87, 14);
+            this.label2.TabIndex = 24;
+            this.label2.Text = "SERVER IP";
+            // 
+            // buttonDirectConnect
+            // 
+            this.buttonDirectConnect.BackColor = System.Drawing.Color.Black;
+            this.buttonDirectConnect.FlatAppearance.BorderColor = System.Drawing.Color.Green;
+            this.buttonDirectConnect.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.buttonDirectConnect.ForeColor = System.Drawing.SystemColors.ControlLightLight;
+            this.buttonDirectConnect.Location = new System.Drawing.Point(363, 221);
+            this.buttonDirectConnect.Name = "buttonDirectConnect";
+            this.buttonDirectConnect.Size = new System.Drawing.Size(190, 25);
+            this.buttonDirectConnect.TabIndex = 22;
+            this.buttonDirectConnect.Text = "DIRECT CONNECT";
+            this.buttonDirectConnect.UseVisualStyleBackColor = false;
+            this.buttonDirectConnect.Click += new System.EventHandler(this.buttonDirectConnect_Click);
             // 
             // buttonOpenServerConfig
             // 
@@ -83,7 +119,7 @@
             this.buttonOpenServerConfig.FlatAppearance.BorderColor = System.Drawing.Color.Yellow;
             this.buttonOpenServerConfig.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.buttonOpenServerConfig.ForeColor = System.Drawing.SystemColors.ControlLightLight;
-            this.buttonOpenServerConfig.Location = new System.Drawing.Point(11, 241);
+            this.buttonOpenServerConfig.Location = new System.Drawing.Point(10, 279);
             this.buttonOpenServerConfig.Name = "buttonOpenServerConfig";
             this.buttonOpenServerConfig.Size = new System.Drawing.Size(254, 26);
             this.buttonOpenServerConfig.TabIndex = 21;
@@ -97,7 +133,7 @@
             this.buttonOpenLobbyConfig.FlatAppearance.BorderColor = System.Drawing.Color.Yellow;
             this.buttonOpenLobbyConfig.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.buttonOpenLobbyConfig.ForeColor = System.Drawing.SystemColors.ControlLightLight;
-            this.buttonOpenLobbyConfig.Location = new System.Drawing.Point(271, 241);
+            this.buttonOpenLobbyConfig.Location = new System.Drawing.Point(270, 279);
             this.buttonOpenLobbyConfig.Name = "buttonOpenLobbyConfig";
             this.buttonOpenLobbyConfig.Size = new System.Drawing.Size(283, 26);
             this.buttonOpenLobbyConfig.TabIndex = 20;
@@ -190,7 +226,7 @@
             this.buttonDedicatedServer.FlatAppearance.BorderColor = System.Drawing.Color.Green;
             this.buttonDedicatedServer.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.buttonDedicatedServer.ForeColor = System.Drawing.SystemColors.ControlLightLight;
-            this.buttonDedicatedServer.Location = new System.Drawing.Point(11, 273);
+            this.buttonDedicatedServer.Location = new System.Drawing.Point(10, 311);
             this.buttonDedicatedServer.Name = "buttonDedicatedServer";
             this.buttonDedicatedServer.Size = new System.Drawing.Size(254, 41);
             this.buttonDedicatedServer.TabIndex = 6;
@@ -204,7 +240,7 @@
             this.buttonPartyServer.FlatAppearance.BorderColor = System.Drawing.Color.Green;
             this.buttonPartyServer.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.buttonPartyServer.ForeColor = System.Drawing.SystemColors.ControlLightLight;
-            this.buttonPartyServer.Location = new System.Drawing.Point(271, 273);
+            this.buttonPartyServer.Location = new System.Drawing.Point(270, 311);
             this.buttonPartyServer.Name = "buttonPartyServer";
             this.buttonPartyServer.Size = new System.Drawing.Size(283, 41);
             this.buttonPartyServer.TabIndex = 5;
@@ -258,7 +294,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(567, 327);
+            this.ClientSize = new System.Drawing.Size(567, 365);
             this.Controls.Add(this.panel1);
             this.ForeColor = System.Drawing.SystemColors.ControlLightLight;
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
@@ -290,6 +326,9 @@
         private System.Windows.Forms.TextBox textBoxNetport;
         private System.Windows.Forms.Button buttonOpenServerConfig;
         private System.Windows.Forms.Button buttonOpenLobbyConfig;
+        private System.Windows.Forms.Button buttonDirectConnect;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.MaskedTextBox textboxServerIP;
     }
 }
 
