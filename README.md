@@ -1,5 +1,5 @@
 # iw4x-server-launcher
-A launcher for iw4x to simplify dedicated and party servers used to lobbies
+A launcher for iw4x to simplify dedicated and party servers used to create lobbies
 
 ![Capture](https://user-images.githubusercontent.com/86622355/124389395-1ef71f00-dce7-11eb-9366-0333f1acf6a0.PNG)
 
