@@ -1,7 +1,7 @@
 # iw4x-server-launcher
 A launcher for iw4x to simplify dedicated and party servers used to lobbies
 
-![Capture](https://user-images.githubusercontent.com/86622355/123683559-a575b180-d84c-11eb-8b56-5bbd3652dba2.PNG)
+![Capture](https://user-images.githubusercontent.com/86622355/124389395-1ef71f00-dce7-11eb-9366-0333f1acf6a0.PNG)
 
 This exists to solve a simple issue. How do I create a lobby server with rotating maps, similar to the original find game option, but in iw4x?"
 
