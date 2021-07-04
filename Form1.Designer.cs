@@ -48,6 +48,8 @@
             this.buttonMultiplayer = new System.Windows.Forms.Button();
             this.buttonSingleplayer = new System.Windows.Forms.Button();
             this.button1 = new System.Windows.Forms.Button();
+            this.comboBoxPlayers = new System.Windows.Forms.ComboBox();
+            this.labelPlayers = new System.Windows.Forms.Label();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -56,6 +58,8 @@
             this.panel1.BackColor = System.Drawing.Color.Black;
             this.panel1.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("panel1.BackgroundImage")));
             this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panel1.Controls.Add(this.labelPlayers);
+            this.panel1.Controls.Add(this.comboBoxPlayers);
             this.panel1.Controls.Add(this.textboxServerIP);
             this.panel1.Controls.Add(this.label2);
             this.panel1.Controls.Add(this.buttonDirectConnect);
@@ -78,14 +82,14 @@
             this.panel1.Font = new System.Drawing.Font("BankGothic Md BT", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.panel1.Location = new System.Drawing.Point(0, 0);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(567, 365);
+            this.panel1.Size = new System.Drawing.Size(567, 398);
             this.panel1.TabIndex = 0;
             this.panel1.Paint += new System.Windows.Forms.PaintEventHandler(this.panel1_Paint);
             this.panel1.MouseDown += new System.Windows.Forms.MouseEventHandler(this.panel1_MouseDown);
             // 
             // textboxServerIP
             // 
-            this.textboxServerIP.Location = new System.Drawing.Point(116, 223);
+            this.textboxServerIP.Location = new System.Drawing.Point(116, 267);
             this.textboxServerIP.Name = "textboxServerIP";
             this.textboxServerIP.Size = new System.Drawing.Size(233, 21);
             this.textboxServerIP.TabIndex = 25;
@@ -93,7 +97,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(23, 226);
+            this.label2.Location = new System.Drawing.Point(23, 270);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(87, 14);
             this.label2.TabIndex = 24;
@@ -105,7 +109,7 @@
             this.buttonDirectConnect.FlatAppearance.BorderColor = System.Drawing.Color.Green;
             this.buttonDirectConnect.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.buttonDirectConnect.ForeColor = System.Drawing.SystemColors.ControlLightLight;
-            this.buttonDirectConnect.Location = new System.Drawing.Point(363, 221);
+            this.buttonDirectConnect.Location = new System.Drawing.Point(363, 265);
             this.buttonDirectConnect.Name = "buttonDirectConnect";
             this.buttonDirectConnect.Size = new System.Drawing.Size(190, 25);
             this.buttonDirectConnect.TabIndex = 22;
@@ -119,7 +123,7 @@
             this.buttonOpenServerConfig.FlatAppearance.BorderColor = System.Drawing.Color.Yellow;
             this.buttonOpenServerConfig.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.buttonOpenServerConfig.ForeColor = System.Drawing.SystemColors.ControlLightLight;
-            this.buttonOpenServerConfig.Location = new System.Drawing.Point(10, 279);
+            this.buttonOpenServerConfig.Location = new System.Drawing.Point(11, 312);
             this.buttonOpenServerConfig.Name = "buttonOpenServerConfig";
             this.buttonOpenServerConfig.Size = new System.Drawing.Size(254, 26);
             this.buttonOpenServerConfig.TabIndex = 21;
@@ -133,7 +137,7 @@
             this.buttonOpenLobbyConfig.FlatAppearance.BorderColor = System.Drawing.Color.Yellow;
             this.buttonOpenLobbyConfig.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.buttonOpenLobbyConfig.ForeColor = System.Drawing.SystemColors.ControlLightLight;
-            this.buttonOpenLobbyConfig.Location = new System.Drawing.Point(270, 279);
+            this.buttonOpenLobbyConfig.Location = new System.Drawing.Point(271, 312);
             this.buttonOpenLobbyConfig.Name = "buttonOpenLobbyConfig";
             this.buttonOpenLobbyConfig.Size = new System.Drawing.Size(283, 26);
             this.buttonOpenLobbyConfig.TabIndex = 20;
@@ -195,7 +199,7 @@
             this.comboBoxLAN.Items.AddRange(new object[] {
             "LAN",
             "ONLINE"});
-            this.comboBoxLAN.Location = new System.Drawing.Point(446, 193);
+            this.comboBoxLAN.Location = new System.Drawing.Point(445, 193);
             this.comboBoxLAN.Name = "comboBoxLAN";
             this.comboBoxLAN.Size = new System.Drawing.Size(108, 21);
             this.comboBoxLAN.TabIndex = 9;
@@ -226,7 +230,7 @@
             this.buttonDedicatedServer.FlatAppearance.BorderColor = System.Drawing.Color.Green;
             this.buttonDedicatedServer.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.buttonDedicatedServer.ForeColor = System.Drawing.SystemColors.ControlLightLight;
-            this.buttonDedicatedServer.Location = new System.Drawing.Point(10, 311);
+            this.buttonDedicatedServer.Location = new System.Drawing.Point(11, 344);
             this.buttonDedicatedServer.Name = "buttonDedicatedServer";
             this.buttonDedicatedServer.Size = new System.Drawing.Size(254, 41);
             this.buttonDedicatedServer.TabIndex = 6;
@@ -240,7 +244,7 @@
             this.buttonPartyServer.FlatAppearance.BorderColor = System.Drawing.Color.Green;
             this.buttonPartyServer.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.buttonPartyServer.ForeColor = System.Drawing.SystemColors.ControlLightLight;
-            this.buttonPartyServer.Location = new System.Drawing.Point(270, 311);
+            this.buttonPartyServer.Location = new System.Drawing.Point(271, 344);
             this.buttonPartyServer.Name = "buttonPartyServer";
             this.buttonPartyServer.Size = new System.Drawing.Size(283, 41);
             this.buttonPartyServer.TabIndex = 5;
@@ -290,11 +294,63 @@
             this.button1.UseVisualStyleBackColor = false;
             this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
+            // comboBoxPlayers
+            // 
+            this.comboBoxPlayers.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboBoxPlayers.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.comboBoxPlayers.FormattingEnabled = true;
+            this.comboBoxPlayers.Items.AddRange(new object[] {
+            "1",
+            "2",
+            "3",
+            "4",
+            "5",
+            "6",
+            "7",
+            "8",
+            "9",
+            "10",
+            "11",
+            "12",
+            "13",
+            "14",
+            "15",
+            "16",
+            "17",
+            "18",
+            "19",
+            "20",
+            "21",
+            "22",
+            "23",
+            "24",
+            "25",
+            "26",
+            "27",
+            "28",
+            "29",
+            "30",
+            "31",
+            "32"});
+            this.comboBoxPlayers.Location = new System.Drawing.Point(445, 222);
+            this.comboBoxPlayers.Name = "comboBoxPlayers";
+            this.comboBoxPlayers.Size = new System.Drawing.Size(108, 22);
+            this.comboBoxPlayers.TabIndex = 26;
+            // 
+            // labelPlayers
+            // 
+            this.labelPlayers.AutoSize = true;
+            this.labelPlayers.Location = new System.Drawing.Point(376, 225);
+            this.labelPlayers.Name = "labelPlayers";
+            this.labelPlayers.Size = new System.Drawing.Size(65, 14);
+            this.labelPlayers.TabIndex = 27;
+            this.labelPlayers.Text = "Players";
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(567, 365);
+            this.ClientSize = new System.Drawing.Size(567, 398);
             this.Controls.Add(this.panel1);
             this.ForeColor = System.Drawing.SystemColors.ControlLightLight;
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
@@ -329,6 +385,8 @@
         private System.Windows.Forms.Button buttonDirectConnect;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.MaskedTextBox textboxServerIP;
+        private System.Windows.Forms.ComboBox comboBoxPlayers;
+        private System.Windows.Forms.Label labelPlayers;
     }
 }
 

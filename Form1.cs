@@ -26,6 +26,7 @@ namespace IW4x_Server_Launcher
         private string argument_string_party = "";
         private string argument_string_dedicated = "";
         private string arg_server_ip         = "";
+        private string arg_minplayers       ="";
 
         public Form1()
         {
@@ -52,6 +53,8 @@ namespace IW4x_Server_Launcher
 
             textboxServerIP.ValidatingType = typeof(System.Net.IPAddress);
             textboxServerIP.Text = arg_server_ip;
+            textBoxNetport.Text = arg_net_port;
+            comboBoxPlayers.Text = arg_minplayers;
 
         }
 
@@ -139,6 +142,7 @@ namespace IW4x_Server_Launcher
         {
             arg_net_port = textBoxNetport.Text;
             arg_server_ip = textboxServerIP.Text;
+            arg_minplayers = comboBoxPlayers.SelectedItem.ToString();
 
             string playlist_id = "1";
 
@@ -175,7 +179,8 @@ namespace IW4x_Server_Launcher
                        "\" +set sv_lanonly \"" + arg_sv_lanonly +
                        "\" +set net_port \"" + arg_net_port +
                        "\" +exec \"" + arg_serverFilename +
-                       "\" +set party_enable \"" + arg_party_enable +
+                       "\" +set party_minplayers " + arg_minplayers +
+                       " +set party_enable \"" + arg_party_enable +
                        "\" +playlist \"" + arg_playlist +
                        "\" +set playlistFilename \"" + arg_playlistFilename + "\"";
             }
@@ -312,8 +317,12 @@ namespace IW4x_Server_Launcher
                 arg_net_port = "28960";
 
             arg_server_ip = IniFile.ReadValue(ConfigFile, "launcher", "server_ip");
-            if (arg_net_port.Length == 0)
+            if (arg_server_ip.Length == 0)
                 arg_server_ip = "127.0.0.1";
+
+            arg_minplayers = IniFile.ReadValue(ConfigFile, "launcher", "minplayers");
+            if (arg_minplayers.Length == 0)
+                arg_minplayers = "2";
 
         }
 
@@ -339,6 +348,7 @@ namespace IW4x_Server_Launcher
             {
                 IniFile.WriteValue(ConfigFile, "launcher", "lanmode", arg_sv_lanonly);
                 IniFile.WriteValue(ConfigFile, "launcher", "netport", arg_net_port);
+                IniFile.WriteValue(ConfigFile, "launcher", "minplayers", arg_minplayers);
             }
 
             IniFile.WriteValue(ConfigFile, "launcher", "server_ip", arg_server_ip);
