@@ -54,7 +54,6 @@ namespace IW4x_Server_Launcher
             textboxServerIP.ValidatingType = typeof(System.Net.IPAddress);
             textboxServerIP.Text = arg_server_ip;
             textBoxNetport.Text = arg_net_port;
-            comboBoxPlayers.Text = arg_minplayers;
 
         }
 
@@ -142,7 +141,6 @@ namespace IW4x_Server_Launcher
         {
             arg_net_port = textBoxNetport.Text;
             arg_server_ip = textboxServerIP.Text;
-            arg_minplayers = comboBoxPlayers.SelectedItem.ToString();
 
             string playlist_id = "1";
 
@@ -179,7 +177,6 @@ namespace IW4x_Server_Launcher
                        "\" +set sv_lanonly \"" + arg_sv_lanonly +
                        "\" +set net_port \"" + arg_net_port +
                        "\" +exec \"" + arg_serverFilename +
-                       "\" +set party_minplayers " + arg_minplayers +
                        " +set party_enable \"" + arg_party_enable +
                        "\" +playlist \"" + arg_playlist +
                        "\" +set playlistFilename \"" + arg_playlistFilename + "\"";
@@ -383,6 +380,11 @@ namespace IW4x_Server_Launcher
             p.StartInfo.Arguments = "+connect \"" + arg_server_ip + "\"";
             p.Start();
             Environment.Exit(0);
+        }
+
+        private void comboBoxPlayers_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
         }
     }
 }
